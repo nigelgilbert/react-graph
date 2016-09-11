@@ -28,19 +28,9 @@ export class Points {
       [440,80]
     ];
     this.get = this.get.bind(this);
-    this.getSVG = this.getSVG.bind(this);
   }
 
   get() {
     return this._points;
   }
-
-  getSVG() {
-    return this._points.map(stringify).join("\n");
-  }
-}
-
-function stringify(tuple) {
-  tuple.map(String);
-  return tuple.join(",");
 }

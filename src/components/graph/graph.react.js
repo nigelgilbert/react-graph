@@ -1,13 +1,33 @@
 "use strict";
 
 import React, { Component } from 'react';
-import { Points } from "../../services/points.js";
 import "./graph.css";
+const PropTypes = React.PropTypes;
 
 export class Graph extends Component {
+
+  // const numbers = [
+  //   [20, 40],
+  //   [60, 82]
+  // ];
+  static propTypes = {
+    points: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))
+  };
+
+  static defaultProps = {
+    points : []
+  };
+
   constructor() {
     super();
-    this.Points = new Points();
+  }
+
+   _toSVG(points) {
+    return points.map(this._stringify).join("\n");
+  }
+
+  _stringify(tuple) {
+    return tuple.map(String).join(",");
   }
 
   render() {
@@ -18,7 +38,7 @@ export class Graph extends Component {
            fill="none"
            stroke="black"
            strokeWidth="4"
-           points={ this.Points.getSVG() }
+           points={ this._toSVG(this.props.points) }
            />
         </svg>
       </div>
