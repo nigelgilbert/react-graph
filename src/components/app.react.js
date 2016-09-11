@@ -15,8 +15,8 @@ export class App extends React.Component {
   render() {
     return (
       <div>
-        <h1 className="center">
-          Here is a demo!
+        <h1 className="title">
+          React Graph
         </h1>
         <Graph points={ this.Points.get() }/>
       </div>

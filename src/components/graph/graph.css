@@ -1,4 +1,8 @@
-.graph {
-  border: 2px solid black;
+.graph-container {
+  border: 1px solid black;
+  width: 500px;
+}
+
+.graph-svg {
   width: 500px;
 }

@@ -32,12 +32,12 @@ export class Graph extends Component {
 
   render() {
     return (
-      <div className="graph">
-        <svg>
+      <div className="graph-container">
+        <svg className="graph-svg">
           <polyline
            fill="none"
            stroke="black"
-           strokeWidth="4"
+           strokeWidth="2.5"
            points={ this._toSVG(this.props.points) }
            />
         </svg>
