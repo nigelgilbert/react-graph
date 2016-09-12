@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import "./graph.css";
+import { cluster } from "../../services/dbscan.js";
 const PropTypes = React.PropTypes;
 
 export class Graph extends Component {
@@ -38,7 +39,7 @@ export class Graph extends Component {
            fill="none"
            stroke="black"
            strokeWidth="2.5"
-           points={ this._toSVG(this.props.points) }
+           points={ this._toSVG(cluster(this.props.points)) }
            />
         </svg>
       </div>
