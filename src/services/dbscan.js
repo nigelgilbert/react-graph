@@ -10,7 +10,11 @@ function dbscan(points, eps, minPts) {
   points.forEach(point => {
     if (point.visited !== true) {
       point.visited = true;
-      console.log(point);
+      point.neighbors = findAllNeighbors(point, points)
     }
   });
+}
+
+function findAllNeighbors(point, eps) {
+  // return all points within P's eps-neighborhood (including P)
 }
