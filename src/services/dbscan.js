@@ -1,9 +1,14 @@
 "use strict";
 
 const visited = new Map();
-const clustered = new Map();
 
-export function cluster(points, eps = 10, minPts = 2) {
+export function cluster(points, eps, minPts) {
+  if (eps === undefined) {
+    eps = 20;
+  }
+  if (minPts === undefined) {
+    minPts = 2;
+  }
   return dbscan(points, eps, minPts);
 }
 
@@ -13,40 +18,41 @@ function dbscan(points, eps, minPts) {
     if (!visited.has(point)) {
       visited.set(point, true);
       const neighbors = findAllNeighbors(point, points, eps);
-      if (points.length < minPts) {
+      if (neighbors.length < minPts) {
         results.push(point);
       } else {
-        const cluster = expandCluster(points, neighbors, eps, MinPts);
+        const cluster = expandCluster(points, neighbors, eps, minPts);
         results.push(center(cluster));
       }
     }
-    return results;
   });
+  return results;
 }
 
 function expandCluster(points, neighbors, eps, minPts) {
-  var cluster = [];
+  const clustered = new Map();
+  var expanded = [];
   neighbors.forEach(point => {
     if (!visited.has(point)) {
       visited.set(point, true);
       const neighborsNeighbors = findAllNeighbors(neighbors, points, eps);
       if (neighborsNeighbors.length >= minPts) {
-        neighbors.concat(neighborsNeighbors);
+        // neighbors.concat(neighborsNeighbors);
       }  
     } 
     if (!clustered.has(point)) {
       clustered.set(point, true);
-      cluster.push(point);
+      expanded.push(point);
     }
   });
-  return cluster;
+  return expanded;
 }
 
 // target is included in neighbors array
 function findAllNeighbors(target, points, eps) {
   var neighbors = [];
   points.forEach(point => {
-    if (distance(target, point) > eps)
+    if (distance(target, point) < eps)
       neighbors.push(point);
   });
   return neighbors;
@@ -58,10 +64,10 @@ function distance(left, right) {
 }
 
 function center(cluster) {
-  return cluster.reduce((a, b) => {
-    var center = [0,0];
-    center[0] = a[0] + b[0];
-    center[1] = a[1] + b[1];
-    return center;
+  var center = [1,0];
+  cluster.forEach(point => {
+    center[0] += point[0];
+    center[1] += point[1];
   });
+  return center;
 }
