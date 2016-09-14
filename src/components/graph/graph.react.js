@@ -52,28 +52,33 @@ export class Graph extends Component {
           <div className="graph-label">
             dbscan
           </div>
+
           <svg className="graph-svg">
             <polyline
              fill="none"
              stroke="black"
-             strokeWidth="2.5"
+             strokeWidth="3"
+             strokeLinejoin="round"
              points={ this._toSVG(cluster(this.props.points, this.state.eps, this.state.minPts)) }
              />
           </svg>
+
           <div className="graph-label">
             eps: {this.state.eps}
             <br></br>
             minPts: {this.state.minPts}
           </div>
         </div>
+
         <input
           id="eps-input"
           type="range"
           min="0" max="50"
           value={this.state.eps}
           onChange={this._handleEpsSlider}
-          step="10"
+          step="1"
         />
+
         <input
           id="min-pts-input"
           type="range"

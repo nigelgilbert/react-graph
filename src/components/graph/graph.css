@@ -1,14 +1,16 @@
 .graph-container {
   border: 1px solid black;
-  width: 500px;
   font-family: Roboto;
+  padding: 5px;
+  width: 500px;
 }
 
 .graph-label {
-  padding: 5px;
   font-family: Roboto;
+  padding: 5px;
 }
 
 .graph-svg {
+  padding: 2px;
   width: 500px;
 }
