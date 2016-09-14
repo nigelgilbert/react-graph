@@ -21,6 +21,12 @@ export class Graph extends Component {
 
   constructor() {
     super();
+    this.state = {
+      eps : 0,
+      minPts: 2,
+    }
+    this._handleEpsSlider = this._handleEpsSlider.bind(this);
+    this._handleMinPtsSlider = this._handleMinPtsSlider.bind(this);
   }
 
    _toSVG(points) {
@@ -31,26 +37,51 @@ export class Graph extends Component {
     return tuple.map(String).join(",");
   }
 
+  _handleEpsSlider(event) {
+    this.setState({eps: event.target.value});
+  }
+
+  _handleMinPtsSlider(event) {
+    this.setState({minPts: event.target.value});
+  }
+
   render() {
     return (
-      <div className="graph-container">
-        <svg className="graph-svg">
-          <polyline
-           fill="none"
-           stroke="black"
-           strokeWidth="2.5"
-           points={ this._toSVG(cluster(this.props.points)) }
-           />
-        </svg>
-
-        <svg className="graph-svg">
-          <polyline
-           fill="none"
-           stroke="black"
-           strokeWidth="2.5"
-           points={ this._toSVG(this.props.points) }
-           />
-        </svg>
+      <div>
+        <div className="graph-container">
+          <div className="graph-label">
+            dbscan
+          </div>
+          <svg className="graph-svg">
+            <polyline
+             fill="none"
+             stroke="black"
+             strokeWidth="2.5"
+             points={ this._toSVG(cluster(this.props.points, this.state.eps, this.state.minPts)) }
+             />
+          </svg>
+          <div className="graph-label">
+            eps: {this.state.eps}
+            <br></br>
+            minPts: {this.state.minPts}
+          </div>
+        </div>
+        <input
+          id="eps-input"
+          type="range"
+          min="0" max="50"
+          value={this.state.eps}
+          onChange={this._handleEpsSlider}
+          step="10"
+        />
+        <input
+          id="min-pts-input"
+          type="range"
+          min="2" max="5"
+          value={this.state.minPts}
+          onChange={this._handleMinPtsSlider}
+          step="1"
+        />
       </div>
     );
   }
