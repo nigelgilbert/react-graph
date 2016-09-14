@@ -59,7 +59,7 @@ export class Graph extends Component {
              stroke="black"
              strokeWidth="3"
              strokeLinejoin="round"
-             points={ this._toSVG(cluster(this.props.points, this.state.eps, this.state.minPts)) }
+             points={this._toSVG(cluster(this.props.points, this.state.eps, this.state.minPts))}
              />
           </svg>
 
