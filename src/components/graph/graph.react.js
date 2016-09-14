@@ -42,6 +42,15 @@ export class Graph extends Component {
            points={ this._toSVG(cluster(this.props.points)) }
            />
         </svg>
+
+        <svg className="graph-svg">
+          <polyline
+           fill="none"
+           stroke="black"
+           strokeWidth="2.5"
+           points={ this._toSVG(this.props.points) }
+           />
+        </svg>
       </div>
     );
   }

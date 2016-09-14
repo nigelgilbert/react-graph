@@ -1,6 +1,7 @@
 "use strict";
 
 const visited = new Map();
+const clustered = new Map();
 
 export function cluster(points, eps, minPts) {
   if (eps === undefined) {
@@ -15,9 +16,10 @@ export function cluster(points, eps, minPts) {
 function dbscan(points, eps, minPts) {
   var results = [];
   points.forEach(point => {
-    if (!visited.has(point)) {
-      visited.set(point, true);
+    if (!visited.has(Symbol(point))) {
+      visited.set(Symbol(point), true);
       const neighbors = findAllNeighbors(point, points, eps);
+      // TEST
       if (neighbors.length < minPts) {
         results.push(point);
       } else {
@@ -30,18 +32,17 @@ function dbscan(points, eps, minPts) {
 }
 
 function expandCluster(points, neighbors, eps, minPts) {
-  const clustered = new Map();
   var expanded = [];
   neighbors.forEach(point => {
-    if (!visited.has(point)) {
-      visited.set(point, true);
-      const neighborsNeighbors = findAllNeighbors(neighbors, points, eps);
+    if (!visited.has(Symbol(point))) {
+      visited.set(Symbol(point), true);
+      const neighborsNeighbors = findAllNeighbors(point, points, eps);
       if (neighborsNeighbors.length >= minPts) {
-        // neighbors.concat(neighborsNeighbors);
+        neighbors.concat(neighborsNeighbors);
       }  
     } 
-    if (!clustered.has(point)) {
-      clustered.set(point, true);
+    if (!clustered.has(Symbol(point))) {
+      clustered.set(Symbol(point), true);
       expanded.push(point);
     }
   });
@@ -59,7 +60,7 @@ function findAllNeighbors(target, points, eps) {
 }
 
 function distance(left, right) {
-   var d = Math.pow((right.x - left.x), 2) + Math.pow((right.y - left.y), 2);
+   var d = Math.pow((right[0] - left[0]),2) + Math.pow((right[1] - left[1]),2);
    return Math.sqrt(Math.abs(d));
 }
 
@@ -69,5 +70,7 @@ function center(cluster) {
     center[0] += point[0];
     center[1] += point[1];
   });
+  center[0] = center[0] / cluster.length;
+  center[1] = center[1] / cluster.length;
   return center;
 }
