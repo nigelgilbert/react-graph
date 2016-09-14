@@ -4,22 +4,20 @@ const visited = new Map();
 const clustered = new Map();
 
 export function cluster(points, eps, minPts) {
-  if (eps === undefined) {
+  if (eps === undefined)
     eps = 20;
-  }
-  if (minPts === undefined) {
+  if (minPts === undefined)
     minPts = 2;
-  }
+
   return dbscan(points, eps, minPts);
 }
 
 function dbscan(points, eps, minPts) {
-  var results = [];
+  const results = [];
   points.forEach(point => {
     if (!visited.has(Symbol(point))) {
       visited.set(Symbol(point), true);
       const neighbors = findAllNeighbors(point, points, eps);
-      // TEST
       if (neighbors.length < minPts) {
         results.push(point);
       } else {
@@ -32,15 +30,15 @@ function dbscan(points, eps, minPts) {
 }
 
 function expandCluster(points, neighbors, eps, minPts) {
-  var expanded = [];
+  const expanded = [];
   neighbors.forEach(point => {
     if (!visited.has(Symbol(point))) {
       visited.set(Symbol(point), true);
       const neighborsNeighbors = findAllNeighbors(point, points, eps);
       if (neighborsNeighbors.length >= minPts) {
         neighbors.concat(neighborsNeighbors);
-      }  
-    } 
+      }
+    }
     if (!clustered.has(Symbol(point))) {
       clustered.set(Symbol(point), true);
       expanded.push(point);
@@ -51,7 +49,7 @@ function expandCluster(points, neighbors, eps, minPts) {
 
 // target is included in neighbors array
 function findAllNeighbors(target, points, eps) {
-  var neighbors = [];
+  const neighbors = [];
   points.forEach(point => {
     if (distance(target, point) < eps)
       neighbors.push(point);
@@ -60,12 +58,13 @@ function findAllNeighbors(target, points, eps) {
 }
 
 function distance(left, right) {
-   var d = Math.pow((right[0] - left[0]),2) + Math.pow((right[1] - left[1]),2);
-   return Math.sqrt(Math.abs(d));
+   const x = Math.pow((right[0] - left[0]), 2)
+   const y = Math.pow((right[1] - left[1]), 2);
+   return Math.sqrt(Math.abs(x + y));
 }
 
 function center(cluster) {
-  var center = [1,0];
+  const center = [0,0];
   cluster.forEach(point => {
     center[0] += point[0];
     center[1] += point[1];

@@ -71,21 +71,21 @@ export class Graph extends Component {
         </div>
 
         <input
-          id="eps-input"
-          type="range"
-          min="0" max="50"
-          value={this.state.eps}
-          onChange={this._handleEpsSlider}
-          step="1"
+         id="eps-input"
+         type="range"
+         min="0" max="50"
+         value={this.state.eps}
+         onChange={this._handleEpsSlider}
+         step="1"
         />
 
         <input
-          id="min-pts-input"
-          type="range"
-          min="2" max="5"
-          value={this.state.minPts}
-          onChange={this._handleMinPtsSlider}
-          step="1"
+         id="min-pts-input"
+         type="range"
+         min="2" max="5"
+         value={this.state.minPts}
+         onChange={this._handleMinPtsSlider}
+         step="1"
         />
       </div>
     );
