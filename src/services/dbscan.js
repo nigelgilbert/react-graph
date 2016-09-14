@@ -9,7 +9,7 @@ export function cluster(points, eps, minPts) {
   if (minPts === undefined)
     minPts = 2;
 
-  return dbscan(points, eps, minPts);
+  return smooth(dbscan(points, eps, minPts));
 }
 
 function dbscan(points, eps, minPts) {
@@ -72,4 +72,14 @@ function center(cluster) {
   center[0] = center[0] / cluster.length;
   center[1] = center[1] / cluster.length;
   return center;
+}
+
+function smooth(linegraph) {
+  var smoothed = [];
+  for (var i = 1; i < linegraph.length; i++) {
+    if (linegraph[i][0] > linegraph[i-1][0]) {
+      smoothed.push(linegraph[i]);
+    }
+  }
+  return smoothed;
 }
